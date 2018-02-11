@@ -17,7 +17,7 @@ class MainViewController: UIViewController {
     var alertController: UIAlertController!
     
     // MARK: - Properties
-    var username: String = "brian_hans"
+    var username: String = "btcjake"
 
     // MARK: - View Lifecycles
     override func viewDidLoad() {
@@ -37,10 +37,10 @@ class MainViewController: UIViewController {
     }
     
     func setupTextField() {
-        let frame = CGRect(x: 0, y: 20, width: view.bounds.width, height: 50)
+        let frame = CGRect(x: 8, y: 40, width: view.bounds.width - 16, height: 50)
         textField = UITextField(frame: frame)
         textField.borderStyle = .roundedRect
-        textField.backgroundColor = .purple
+        textField.placeholder = "Enter Snapchat Username"
         textField.delegate = self
         view.addSubview(textField)
         
@@ -48,11 +48,22 @@ class MainViewController: UIViewController {
     }
     
     func setupDoneButton() {
-        let frame = CGRect(x: 0, y: 70, width: view.bounds.width, height: 50)
+        let frame = CGRect(x: view.bounds.width / 4, y: 103, width: view.bounds.width / 2, height: 50)
         doneButton = UIButton(frame: frame)
-        doneButton.setTitle("Get Bitmoji", for: .normal)
-        doneButton.setTitleColor(.red, for: .normal)
+        doneButton.setTitle("Find Bitmoji", for: .normal)
+        doneButton.setTitleColor(.white, for: .normal)
+        doneButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         doneButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        
+        let blueColor = UIColor(red: 0.259, green: 0.522, blue: 0.957, alpha: 1.00)
+        doneButton.backgroundColor = blueColor
+        doneButton.layer.cornerRadius = 4
+        
+        doneButton.layer.shadowColor = UIColor.black.cgColor
+        doneButton.layer.shadowOpacity = 0.4
+        doneButton.layer.shadowRadius = 4
+        doneButton.layer.shadowOffset = CGSize(width: 4, height: 4)
+        
         view.addSubview(doneButton)
     }
     
@@ -140,10 +151,6 @@ extension MainViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         buttonTapped()
         return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.resignFirstResponder()
     }
 }
 
