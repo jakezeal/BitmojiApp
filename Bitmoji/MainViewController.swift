@@ -91,9 +91,14 @@ class MainViewController: UIViewController {
     }
     
     func requestBitmoji() {
-        let url = URL(string: "https://feelinsonice-hrd.appspot.com/web/deeplink/snapcode?username=\(username)&type=SVG")
         
-        let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
+        guard let url = URL(string: "https://feelinsonice-hrd.appspot.com/web/deeplink/snapcode?username=\(username)&type=SVG") else {
+            self.present(self.alertController, animated: true, completion: nil)
+            self.doneButton.isEnabled = true
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             guard error == nil else {
                 fatalError(error!.localizedDescription)
@@ -133,10 +138,16 @@ class MainViewController: UIViewController {
                 return
             }
             
-            let image = UIImage(data: imageData)
+            guard let image = UIImage(data: imageData) else {
+                DispatchQueue.main.async {
+                    self.present(self.alertController, animated: true, completion: nil)
+                    self.doneButton.isEnabled = true
+                }
+                return
+            }
             
             DispatchQueue.main.async {
-                self.imageView.image = image!
+                self.imageView.image = image
                 self.doneButton.isEnabled = true
             }
         }
